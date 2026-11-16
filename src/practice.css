@@ -5,3 +5,13 @@
 .ue-footnote button:hover{background:#486b92}
 .ue-footnote span{margin-left:auto;font-size:11px}
 @media(max-width:760px){.ue-footnote span{width:100%;margin-left:0}}
+
+.ue-missionbar{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:12px;background:#1d2937;border-bottom:1px solid #536478;color:#dbeafe}
+.ue-missionbar>div:first-child{min-width:145px;display:flex;flex-direction:column;gap:4px}
+.ue-missionbar strong{font-size:14px;color:#facc15}
+.ue-missionbar>div:first-child span{font-size:11px;color:#aebed0}
+.ue-missions{display:flex;gap:10px;flex:1;flex-wrap:wrap}
+.ue-missions span{font-size:11px;border:1px solid #536478;border-radius:5px;padding:6px 9px;color:#bac4cf}
+.ue-missions span.complete{color:#a7f3d0;border-color:#3c8065;background:#1e4538}
+.ue-missionbar small{font-size:14px;color:#facc15;font-weight:bold;white-space:nowrap}
+@media(max-width:800px){.ue-missionbar{align-items:flex-start;flex-direction:column}.ue-missions{width:100%}}
