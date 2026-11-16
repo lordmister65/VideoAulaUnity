@@ -57,8 +57,15 @@ export function PracticeEditor(){
 
  const setNumber=(key:'x'|'y'|'rotation'|'sx'|'sy',value:string)=>{const n=Number(value);if(Number.isFinite(n))update({[key]:n})};
  const objectsView=objects.filter(o=>o.visible);
+ const hasPersonagem=objects.some(o=>o.name.toLowerCase().includes('personagem'));
+ const hasChao=objects.some(o=>o.name.toLowerCase().includes('chão'));
+ const hasObstaculo=objects.some(o=>o.name.toLowerCase().includes('obstáculo'));
+ const movedPersonagem=objects.some(o=>o.id==='player'&&(Math.abs(o.x+1.5)>.01||Math.abs(o.y-.2)>.01));
+ const missions=[{name:'Identificar Personagem, Chão e Obstáculo na Hierarchy',done:hasPersonagem&&hasChao&&hasObstaculo},{name:'Mover o Personagem na Scene ou no Inspector',done:movedPersonagem},{name:'Salvar a cena no navegador (Ctrl+S)',done:saved}];
+ const completed=missions.filter(m=>m.done).length;
  const numberField=(label:string,key:'x'|'y'|'rotation'|'sx'|'sy')=><label className="ue-field" key={key}><span>{label}</span><input type="number" step=".1" value={current?.[key]??0} onChange={e=>setNumber(key,e.target.value)} disabled={!current}/></label>;
  return <section className="ue-shell" aria-label="Simulador didático do editor Unity 2D">
+  <div className="ue-missionbar"><div><strong>Missão da Aula 1</strong><span>Explore a interface e conclua as tarefas no modo prática.</span></div><div className="ue-missions">{missions.map((m,i)=><span key={i} className={m.done?'complete':''}>{m.done?'✓':'○'} {m.name}</span>)}</div><small>{completed}/3</small></div>
   <div className="ue-titlebar"><span className="ue-mark">◈</span> PixelAdventure - Fase01.unity <span className="ue-version">Unity 6 · Simulação educativa</span></div>
   <div className="ue-menubar">{dirs.map(d=><div className="ue-menuitem" key={d}><button onClick={()=>setMenu(menu===d?null:d)}>{d}</button>{menu===d&&<div className="ue-dropdown">{(d==='File'?['Save Scene','Open Saved Scene','Reset Scene']:d==='GameObject'?['2D Object > Sprites > Square','Duplicate','Delete']:['Tools (demonstração)']).map((x,i)=><button key={x} onClick={()=>{setMenu(null);if(x.startsWith('Save'))save();else if(x==='Open Saved Scene')restore();else if(x==='Reset Scene')reset();else if(x.includes('Square'))add();else if(x==='Duplicate')duplicate();else if(x==='Delete')remove();else notify(x)}}>{x}</button>)}</div>}</div>)}<span className="ue-spacer"/><span className="ue-badge">{saved?'Cena salva':'Alterações não salvas'}</span></div>
   <div className="ue-toolbar"><div className="ue-tools">{['Hand','Move','Rotate','Scale','Rect'].map((t,i)=><button key={t} className={tool===t?'active':''} onClick={()=>setTool(t)} title={t}>{['✋','✥','⟳','⤢','▣'][i]}</button>)}</div><div className="ue-play"><button className={playing?'active':''} onClick={()=>{setPlaying(!playing);notify(!playing?'Play Mode iniciado':'Play Mode encerrado')}} title="Play">▶</button><button onClick={()=>notify('Pausar simulação')} title="Pause">Ⅱ</button><button onClick={()=>notify('Step: avançar um quadro')} title="Step">▷▏</button></div><div className="ue-righttools">2D　☷　Gizmos</div></div>
